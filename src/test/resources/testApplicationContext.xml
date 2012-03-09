@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="no.bekk.database" />
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<util:map id="databaseProperties">
+		<entry key="user" value="${jdbc.username}" />
+		<entry key="password" value="${jdbc.password}" />
+	</util:map>
+
+	<bean id="dataSourceSpied" class="com.mchange.v2.c3p0.ComboPooledDataSource" p:driverClass="${jdbc.driverClassName}" p:jdbcUrl="${jdbc.url}"
+		p:initialPoolSize="${jdbc.initialPoolSize}" p:minPoolSize="${jdbc.minPoolSize}" p:maxPoolSize="${jdbc.maxPoolSize}" p:acquireIncrement="${jdbc.acquireIncrement}"
+		p:maxIdleTime="${jdbc.maxIdleTime}" p:maxStatements="${jdbc.maxStatements}" p:numHelperThreads="${jdbc.numHelperThreads}"
+		p:properties-ref="databaseProperties" p:checkoutTimeout="${jdbc.checkoutTimeout}" />
+
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied" />
+		<property name="logFormatter">
+			<bean class="no.bekk.database.log.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource" />
+
+
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory" />
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="dataSource"
+		p:jpaVendorAdapter-ref="jpaAdapter" p:persistenceUnitName="test" />
+
+	<bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:database="${jpa.database}" p:showSql="${jpa.showSql}"
+		p:generateDdl="${jpa.generateDdl}" p:databasePlatform="${jpa.dialect}" />
+
+
+</beans>
+
