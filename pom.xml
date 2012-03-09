@@ -151,7 +151,7 @@
 		<jpa.database>HSQL</jpa.database>
 		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
 		<jpa.generateDdl>true</jpa.generateDdl>
-		<jpa.showSql>false</jpa.showSql>
+		<jpa.showSql>true</jpa.showSql>
 	</properties>
 
 </project>

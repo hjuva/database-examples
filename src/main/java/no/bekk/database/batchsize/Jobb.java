@@ -1,4 +1,4 @@
-package no.bekk.database.model;
+package no.bekk.database.batchsize;
 
 import java.util.Set;
 
@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.slf4j.Logger;
@@ -24,9 +23,6 @@ public class Jobb {
 	static final Logger LOG = LoggerFactory.getLogger(Jobb.class);
 	private static final String JOBB_SEQ = "JOBB_SEQ";
 
-	protected Jobb() {
-	}
-
 	@Id
 	@GenericGenerator(name = JOBB_SEQ, strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
 			@Parameter(name = "sequence_name", value = JOBB_SEQ), @Parameter(name = "initial_value", value = "1"),
@@ -37,8 +33,11 @@ public class Jobb {
 	private long id;
 
 	@OneToMany(mappedBy = "jobb", fetch = FetchType.LAZY)
-	@BatchSize(size = 200)
 	private Set<JobbEvent> events;
+
+	public Jobb() {
+		super();
+	}
 
 	public void setId(final Long id) {
 		this.id = id;
@@ -46,6 +45,10 @@ public class Jobb {
 
 	public long getId() {
 		return id;
+	}
+
+	public Set<JobbEvent> getEvents() {
+		return events;
 	}
 
 }

@@ -1,6 +1,6 @@
-package no.bekk.database.dao;
+package no.bekk.database.batchsize;
 
-import no.bekk.database.model.Jobb;
+import no.bekk.database.dao.JpaDao;
 
 import org.springframework.stereotype.Repository;
 

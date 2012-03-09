@@ -42,7 +42,7 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="dataSource"
 		p:jpaVendorAdapter-ref="jpaAdapter" p:persistenceUnitName="test" />
 
-	<bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:database="${jpa.database}" p:showSql="${jpa.showSql}"
+	<bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:database="${jpa.database}" 
 		p:generateDdl="${jpa.generateDdl}" p:databasePlatform="${jpa.dialect}" />
 
 
