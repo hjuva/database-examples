@@ -1,7 +1,6 @@
 package no.bekk.database.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -12,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import no.bekk.database.batchsize.Jobb;
 import no.bekk.database.batchsize.JobbDao;
 import no.bekk.database.batchsize.JobbEvent;
+import no.bekk.database.logging.LogAppender;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +19,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import ch.qos.logback.classic.Level;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:testApplicationContext.xml" })
@@ -29,6 +31,8 @@ public class JpaJobbDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 
 	@Resource
 	private JobbDao jobbDao;
+
+	private LogAppender logAppender;
 
 	@Before
 	public void setUp() {
@@ -53,15 +57,17 @@ public class JpaJobbDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 	}
 
 	@Test
-	public void avsenderSkalFinneJobben() {
+	public void skalKunGjoere2SpoerringerMedBatchSize10() {
 		assertEquals(10, jobbDao.count());
+
+		logAppender = new LogAppender(Level.INFO, "jdbc.sqlonly");
 
 		List<Jobb> all = jobbDao.getAll();
 
 		for (Jobb jobb : all) {
 			System.out.println(jobb.getEvents());
 		}
-		assertTrue(true);
+		assertEquals(2, logAppender.getLogEvents().size());
 	}
 
 }

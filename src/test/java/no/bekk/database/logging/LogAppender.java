@@ -1,11 +1,9 @@
 package no.bekk.database.logging;
 
-import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +17,12 @@ public class LogAppender {
 
 	private final ListAppender<ILoggingEvent> appender = new ListAppender<ILoggingEvent>();
 
-	public LogAppender() {
-		init(Level.TRACE, "no.posten");
-	}
-
 	public LogAppender(final Level level, final String... logname) {
 		init(level, logname);
+	}
+
+	public LogAppender(final String... logname) {
+		init(Level.ALL, logname);
 	}
 
 	public void clear() {
@@ -33,7 +31,6 @@ public class LogAppender {
 
 	public void init(final Level level, final String... logname) {
 		Logger rootlogger = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-		rootlogger.detachAndStopAllAppenders();
 		LoggerContext loggerContext = rootlogger.getLoggerContext();
 
 		for (String string : logname) {
@@ -45,7 +42,7 @@ public class LogAppender {
 		appender.start();
 	}
 
-	public List<ILoggingEvent> hentLogEvents() {
+	public List<ILoggingEvent> getLogEvents() {
 		return appender.list;
 	}
 
@@ -81,21 +78,6 @@ public class LogAppender {
 			}
 		}
 		return null;
-	}
-
-	public void assertMdcVerdiSatt(final int statement, final String key, final String expectedValue) {
-		ILoggingEvent loggingEvent = appender.list.get(statement);
-		@SuppressWarnings("deprecation")
-		Map<String, String> mdc = loggingEvent.getMdc();
-		String value = mdc.get(key);
-		assertEquals(expectedValue, value);
-	}
-
-	public void assertMdcIkkeSatt(final int statement, final String key) {
-		ILoggingEvent loggingEvent = appender.list.get(statement);
-		@SuppressWarnings("deprecation")
-		Map<String, String> mdc = loggingEvent.getMdc();
-		assertFalse("MDC " + key + "skal ikke vara satt", mdc.containsKey(key));
 	}
 
 }

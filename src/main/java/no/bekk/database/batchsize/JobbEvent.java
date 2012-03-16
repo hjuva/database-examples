@@ -11,14 +11,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Entity
 @Table(name = "JOBB_EVENT")
 public class JobbEvent {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JobbEvent.class);
 	private static final String JOBB_EVENT_SEQ = "JOBB_EVENT_SEQ";
 
 	@SuppressWarnings("unused")
@@ -31,6 +28,7 @@ public class JobbEvent {
 	@Column(name = "ID")
 	private long id;
 
+	@SuppressWarnings("unused")
 	@Column(name = "MELDING")
 	private String melding;
 
