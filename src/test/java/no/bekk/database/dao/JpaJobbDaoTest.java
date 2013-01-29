@@ -2,7 +2,9 @@ package no.bekk.database.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -43,17 +45,15 @@ public class JpaJobbDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 		em.clear();
 	}
 
-	private void makeJobs(final int count) {
-
-		for (int i = 0; i < count; i++) {
-			Jobb jobb = new Jobb();
-			em.persist(jobb);
-			for (int j = 0; j < 3; j++) {
-				JobbEvent jobbEvent = new JobbEvent("hei" + j, jobb);
-				em.persist(jobbEvent);
-			}
-
-		}
+	@Test
+	public void updateWithTempTable() {
+		Set<Long> id = new HashSet<Long>();
+		id.add(1L);
+		id.add(2L);
+		id.add(3L);
+		jobbDao.oppdaterJobb(id);
+		em.flush();
+		System.out.println();
 	}
 
 	@Test
@@ -68,6 +68,19 @@ public class JpaJobbDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 			System.out.println(jobb.getEvents());
 		}
 		assertEquals(2, logAppender.getLogEvents().size());
+	}
+
+	private void makeJobs(final int count) {
+
+		for (int i = 0; i < count; i++) {
+			Jobb jobb = new Jobb();
+			em.persist(jobb);
+			for (int j = 0; j < 3; j++) {
+				JobbEvent jobbEvent = new JobbEvent("hei" + j, jobb);
+				em.persist(jobbEvent);
+			}
+
+		}
 	}
 
 }

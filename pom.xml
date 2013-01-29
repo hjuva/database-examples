@@ -12,7 +12,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>3.0.7.RELEASE</version>
+			<version>3.1.1.RELEASE</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>3.0.7.RELEASE</version>
+			<version>3.1.1.RELEASE</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>3.0.7.RELEASE</version>
+			<version>3.1.1.RELEASE</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>3.0.7.RELEASE</version>
+			<version>3.1.1.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -131,26 +131,41 @@
 		</plugins>
 
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>b</id>
+			<properties>
+				<testprop>bob</testprop>
+			</properties>
+		</profile>
+		<profile>
+			<id>a</id>
+			<properties>
+				<testprop>are</testprop>
+			</properties>
+		</profile>
+	</profiles>
 
 	<properties>
-		<jdbc.acquireIncrement>5</jdbc.acquireIncrement>
+		<c3p0.acquireIncrement>5</c3p0.acquireIncrement>
 		<jdbc.artifactId>hsqldb</jdbc.artifactId>
 		<jdbc.driverClassName>org.hsqldb.jdbcDriver</jdbc.driverClassName>
 		<jdbc.groupId>org.hsqldb</jdbc.groupId>
-		<jdbc.initialPoolSize>5</jdbc.initialPoolSize>
-		<jdbc.maxIdleTime>3600</jdbc.maxIdleTime>
-		<jdbc.maxPoolSize>15</jdbc.maxPoolSize>
-		<jdbc.maxStatements>0</jdbc.maxStatements>
+		<c3p0.initialPoolSize>5</c3p0.initialPoolSize>
+		<c3p0.maxIdleTime>3600</c3p0.maxIdleTime>
+		<c3p0.maxPoolSize>15</c3p0.maxPoolSize>
+		<c3p0.maxStatements>0</c3p0.maxStatements>
 		<jdbc.minPoolSize>5</jdbc.minPoolSize>
 		<jdbc.numHelperThreads>6</jdbc.numHelperThreads>
 		<jdbc.password />
 		<jdbc.url><![CDATA[jdbc:hsqldb:mem:dpost;sql.syntax_ora=true]]></jdbc.url>
 		<jdbc.username>sa</jdbc.username>
 		<jdbc.version>${org.hsqldb.version}</jdbc.version>
-		<jdbc.checkoutTimeout>10000</jdbc.checkoutTimeout>
+		<c3p0.checkoutTimeout>10000</c3p0.checkoutTimeout>
 		<jpa.database>HSQL</jpa.database>
 		<jpa.dialect>org.hibernate.dialect.HSQLDialect</jpa.dialect>
-		<jpa.generateDdl>true</jpa.generateDdl>
+		<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
 		<jpa.showSql>true</jpa.showSql>
 	</properties>
 

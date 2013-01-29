@@ -20,6 +20,11 @@ import org.slf4j.LoggerFactory;
 @Table(name = "JOBB")
 public class Jobb {
 
+	@Override
+	public String toString() {
+		return id + "-" + name + "-" + type;
+	}
+
 	static final Logger LOG = LoggerFactory.getLogger(Jobb.class);
 	private static final String JOBB_SEQ = "JOBB_SEQ";
 
@@ -31,6 +36,33 @@ public class Jobb {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = JOBB_SEQ)
 	@Column(name = "ID")
 	private long id;
+
+	@Column(name = "VERSION")
+	protected int version;
+
+	@Column(name = "NAME")
+	private String name;
+	@Column(name = "TYPE")
+	private String type;
+
+	@Column(name = "FLAG")
+	private boolean flag;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(final boolean flag) {
+		this.flag = flag;
+	}
 
 	@OneToMany(mappedBy = "jobb", fetch = FetchType.LAZY)
 	private Set<JobbEvent> events;
@@ -49,6 +81,10 @@ public class Jobb {
 
 	public Set<JobbEvent> getEvents() {
 		return events;
+	}
+
+	public void setType(final String type) {
+		this.type = type;
 	}
 
 }
