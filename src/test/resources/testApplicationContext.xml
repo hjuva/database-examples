@@ -58,7 +58,8 @@
 		<prop key="hibernate.jdbc.use_scrollable_resultset">false</prop>
 		<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 		<prop key="hibernate.default_schema">#{'${db}'.equalsIgnoreCase('HSQL') ? 'PUBLIC' : systemProperties['jdbc.username']}</prop>
-		<prop key="hibernate.hbm2ddl.auto">validate</prop>
+<!-- 		settes i deployed app - prod -->
+<!-- 		<prop key="hibernate.hbm2ddl.auto">validate</prop>  -->
 	</util:properties>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="dataSource"
