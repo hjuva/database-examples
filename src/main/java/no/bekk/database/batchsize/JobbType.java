@@ -1,15 +1,10 @@
 package no.bekk.database.batchsize;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -18,16 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Entity
-@Table(name = "JOBB")
-public class Jobb {
+@Table(name = "JOBBTYPE")
+public class JobbType {
 
-	@Override
-	public String toString() {
-		return id + "-" + name + "-" + type;
-	}
-
-	static final Logger LOG = LoggerFactory.getLogger(Jobb.class);
-	private static final String JOBB_SEQ = "JOBB_SEQ";
+	static final Logger LOG = LoggerFactory.getLogger(JobbType.class);
+	private static final String JOBB_SEQ = "JOBBTYPE_SEQ";
 
 	@Id
 	@GenericGenerator(name = JOBB_SEQ, strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
@@ -38,26 +28,8 @@ public class Jobb {
 	@Column(name = "ID")
 	private long id;
 
-	@Column(name = "VERSION")
-	protected int version;
-
 	@Column(name = "NAME")
 	private String name;
-	@Column(name = "TYPE")
-	private String type;
-
-	@Column(name = "FLAG")
-	private boolean flag;
-
-	@OneToMany(mappedBy = "jobb", fetch = FetchType.EAGER)
-	private Set<JobbEvent> events;
-
-	@ManyToOne
-	private JobbType jobbType;
-
-	public Jobb() {
-		super();
-	}
 
 	public String getName() {
 		return name;
@@ -66,30 +38,4 @@ public class Jobb {
 	public void setName(final String name) {
 		this.name = name;
 	}
-
-	public boolean isFlag() {
-
-		return flag;
-	}
-
-	public void setFlag(final boolean flag) {
-		this.flag = flag;
-	}
-
-	public void setId(final Long id) {
-		this.id = id;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public Set<JobbEvent> getEvents() {
-		return events;
-	}
-
-	public void setType(final String type) {
-		this.type = type;
-	}
-
 }

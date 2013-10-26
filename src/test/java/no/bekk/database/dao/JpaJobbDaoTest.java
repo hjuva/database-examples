@@ -46,6 +46,12 @@ public class JpaJobbDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 	}
 
 	@Test
+	public void testname() throws Exception {
+
+		final Jobb findById = jobbDao.findById(1L);
+	}
+
+	@Test
 	public void updateWithTempTable() {
 		Set<Long> id = new HashSet<Long>();
 		id.add(1L);
